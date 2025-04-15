@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order History</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f1f1f1;
+      text-align: center;
+      color: #333;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    header h1 {
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    nav {
+      margin-top: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 0 15px;
+      border-radius: 5px;
+      background-color: #007bff;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #0056b3;
+    }
+
+    .history-container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .order-card {
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      background: linear-gradient(to bottom, #f9f9f9, #e8e8e8);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .order-card p {
+      margin: 10px 0;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .order-card p strong {
+      color: #007bff;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #0056b3;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+      font-size: 14px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    🧾 Order History
+    <nav>
+      <a href="index.html">Home</a>
+     <a href="order-history.html">Order History</a>  
+     <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <div class="history-container" id="historyList">
+    <!-- Orders will be shown here by JS -->
+  </div>
+
+  <a href="index.html" class="back-btn">← Back to Home</a>
+
+  <footer>
+    <p>&copy; 2025 Free Fire Top-Up Service. All rights reserved.</p>
+  </footer>
+
+  <script>
+    window.onload = function () {
+      const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+      const historyList = document.getElementById("historyList");
+
+      if (orderHistory.length > 0) {
+        orderHistory.reverse(); // Show latest first
+        historyList.innerHTML = orderHistory.map(order => `
+          <div class="order-card">
+            <p><strong>Order ID:</strong> ${order.orderId}</p>
+            <p><strong>Player Name:</strong> ${order.playerName}</p>
+            <p><strong>Player ID:</strong> ${order.playerID}</p>
+            <p><strong>Diamonds:</strong> ${order.diamonds.join(', ')}</p>
+            <p><strong>Total:</strong> Rs${order.total}</p>
+            <p><strong>Status:</strong> ${order.status}</p>
+            <p><strong>Date:</strong> ${order.date}</p>
+          </div>
+        `).join('');
+      } else {
+        historyList.innerHTML = "<p>No previous orders found.</p>";
+      }
+    };
+  </script>
+
+</body>
+</html>
