@@ -1,253 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Fire Diamond Top-Up</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Page</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #f8f8f8;
+      background-color: #f5f5f5;
+      text-align: center;
     }
 
     header {
-      background-color: #222;
+      background-color: #333;
       color: white;
-      padding: 15px;
-      text-align: center;
+      padding: 15px 0;
     }
 
-    nav a {
-      margin: 0 15px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
+    h1, h2 {
+      margin-bottom: 20px;
     }
 
-    .container {
-      padding: 30px 15px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    h2 {
-      margin-bottom: 25px;
-      color: #333;
-    }
-
-    .diamond-box {
-      display: inline-block;
-      width: 200px;
-      margin: 15px;
-      padding: 20px;
-      background: white;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .diamond-box:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transform: scale(1.05);
-    }
-
-    .diamond-box p {
-      margin: 0;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .cart-summary {
-      margin-top: 40px;
-      padding: 20px;
-      background: #fff;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      text-align: left;
+    .payment-container {
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 40px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
 
-    .cart-summary pre {
-      background: #f0f0f0;
+    .cart-details p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    .form-group {
+      margin-top: 25px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"], input[type="file"] {
+      width: 100%;
       padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 15px;
       border-radius: 5px;
-      white-space: pre-wrap;
+      border: 1px solid #ccc;
     }
 
-    .pay-btn {
-      margin-top: 15px;
-      padding: 10px 20px;
+    .submit-btn {
+      padding: 12px 25px;
       background-color: #28a745;
       color: white;
       border: none;
+      border-radius: 6px;
       font-size: 16px;
-      border-radius: 5px;
       cursor: pointer;
     }
 
-    .pay-btn:hover {
+    .submit-btn:hover {
       background-color: #218838;
     }
 
-    #playerInfoForm {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #fff;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    input[type="text"] {
-      width: 90%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button[type="submit"] {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button[type="submit"]:hover {
-      background-color: #0056b3;
-    }
-
     footer {
-      margin-top: 40px;
-      padding: 15px;
-      background-color: #222;
+      margin-top: 50px;
+      background-color: #333;
       color: white;
-      text-align: center;
+      padding: 15px;
     }
   </style>
 </head>
 <body>
-
-  <!-- Header -->
   <header>
-    <h1>Free Fire Diamond Top-Up</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="contact.html">Contact Us</a>
-     <a href="order-history.html">Order History</a>
-    </nav>
+    <h1>Confirm Your Payment</h1>
   </header>
 
-  <!-- Main Container -->
-  <div class="container">
-    <h2>Select Your Diamond Package</h2>
-
-    <!-- Diamond Options -->
-    <div class="diamond-box" onclick="addToCart(50, 49)">
-      <p>50 Diamonds - Rs 49</p>
-    </div>
-    <div class="diamond-box" onclick="addToCart(115, 99)">
-      <p>115 Diamonds - Rs 99</p>
-    </div>
-    <div class="diamond-box" onclick="addToCart(240, 199)">
-      <p>240 Diamonds - Rs 199</p>
-    </div>
-    <div class="diamond-box" onclick="addToCart(355, 299)">
-      <p>355 Diamonds - Rs 299</p>
-    </div>
-    <div class="diamond-box" onclick="addToCart(480, 399)">
-      <p>480 Diamonds - Rs 399</p>
-    </div>
-    <div class="diamond-box" onclick="addToCart(610, 599)">
-      <p>610 Diamonds - Rs 599</p>
-    </div>
-    <div class="diamond-box" onclick="addToCart(725, 699)">
-      <p>725 Diamonds - Rs 699</p>
-    </div>
-    <div class="diamond-box" onclick="addToCart(850, 799)">
-      <p>850 Diamonds - Rs 799</p>
+  <div class="payment-container">
+    <h2>Your Cart</h2>
+    <div class="cart-details" id="cartDetails">
+      <!-- Cart items inserted here by JS -->
     </div>
 
-    <!-- Cart Summary -->
-    <div class="cart-summary" id="cartSummary">
-      <p>Your Cart: 0 items</p>
-      <p>Total: ₹0</p>
-      <button class="pay-btn" onclick="showPlayerInfoForm()">Proceed to Payment</button>
+    <div class="form-group">
+      <label for="esewaNumber">Send Payment to This eSewa Number:</label>
+      <input type="text" value="98XXXXXXXX" readonly />
     </div>
 
-    <!-- Player Info Form -->
-    <div id="playerInfoForm" style="display:none;">
-      <h3>Enter Your Player Info</h3>
-      <form id="playerInfo">
-        <input type="text" id="playerName" placeholder="Player Name" required><br>
-        <input type="text" id="playerID" placeholder="Player ID" required><br>
-        <button type="submit">Submit</button>
-      </form>
+    <div class="form-group">
+      <label for="screenshot">Upload Screenshot of Payment:</label>
+      <input type="file" id="screenshot" accept="image/*" />
     </div>
+
+    <button class="submit-btn" onclick="submitPayment()">Submit Payment</button>
   </div>
 
-  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Free Fire Top-Up Service. All rights reserved.</p>
   </footer>
 
-  <!-- Script -->
   <script>
-    let cart = {
-      items: [],
-      total: 0
+    window.onload = function () {
+      const cart = JSON.parse(localStorage.getItem('cart'));
+      const playerInfo = JSON.parse(localStorage.getItem('playerInfo'));
+      const cartDiv = document.getElementById("cartDetails");
+
+      if (cart && cart.items.length > 0) {
+        let content = "";
+
+        cart.items.forEach(item => {
+          content += `<p>${item.diamonds} Diamonds - Rs${item.price}</p>`;
+        });
+
+        content += `<p><strong>Total:</strong> Rs${cart.total}</p>`;
+
+        if (playerInfo) {
+          content += `<p><strong>Player Name:</strong> ${playerInfo.playerName}</p>`;
+          content += `<p><strong>Player ID:</strong> ${playerInfo.playerID}</p>`;
+        }
+
+        cartDiv.innerHTML = content;
+      } else {
+        cartDiv.innerHTML = "<p>Your cart is empty.</p>";
+      }
     };
 
-    function addToCart(diamonds, price) {
-      cart.items.push({ diamonds, price });
-      cart.total += price;
-      updateCartSummary();
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
+    function submitPayment() {
+      const fileInput = document.getElementById("screenshot");
 
-    function updateCartSummary() {
-      const cartSummary = document.getElementById('cartSummary');
-      const cartCount = cart.items.length;
-      let cartDetails = '';
-      cart.items.forEach(item => {
-        cartDetails += `${item.diamonds} Diamonds - ₹${item.price}\n`;
-      });
-
-      cartSummary.innerHTML = `
-        <p>Your Cart: ${cartCount} item${cartCount > 1 ? 's' : ''}</p>
-        <p>Total: ₹${cart.total}</p>
-        <pre>${cartDetails}</pre>
-        <button class="pay-btn" onclick="showPlayerInfoForm()">Proceed to Payment</button>
-      `;
-    }
-
-    function showPlayerInfoForm() {
-      if (cart.items.length === 0) {
-        alert("Your cart is empty!");
+      if (!fileInput.value) {
+        alert("Please upload a payment screenshot.");
         return;
       }
-      document.getElementById("playerInfoForm").style.display = "block";
+
+      // Generate Order ID
+      let orderCount = localStorage.getItem("orderCount");
+      orderCount = orderCount ? parseInt(orderCount) : 0;
+      orderCount += 1;
+      localStorage.setItem("orderCount", orderCount); // Store order count in localStorage
+
+      const orderID = `ORD${orderCount}`; // Generate unique order ID (e.g., ORD1, ORD2, etc.)
+
+      // Hide the form and show confirmation
+      const container = document.querySelector(".payment-container");
+      container.innerHTML = `
+        <h2>✅ Order Received</h2>
+        <p>Thank you! Your order has been submitted.</p>
+        <p><strong>Order ID:</strong> ${orderID}</p>
+        <p><strong>Status:</strong> Pending Confirmation</p>
+        <p>We will verify your payment and top-up your account shortly.</p>
+      `;
+
+      // Clear cart and player info from localStorage
+      localStorage.removeItem('cart');
+      localStorage.removeItem('playerInfo');
     }
-
-    document.getElementById("playerInfo").addEventListener("submit", function(event) {
-      event.preventDefault();
-      const playerName = document.getElementById("playerName").value;
-      const playerID = document.getElementById("playerID").value;
-
-      localStorage.setItem('playerInfo', JSON.stringify({ playerName, playerID }));
-      window.location.href = 'payment.html';
-    });
   </script>
-
 </body>
 </html>
