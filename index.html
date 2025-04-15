@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Top-Up Service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav {
+      margin-top: 20px;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    /* Glowing effect with box on hover */
+    nav a:hover {
+      text-shadow: 0 0 20px rgba(255, 165, 0, 0.8); /* Glowing text effect */
+      border: 2px solid rgba(255, 165, 0, 0.8); /* Box around the text */
+      background-color: rgba(255, 165, 0, 0.1); /* Light background to match the glow */
+    }
+
+    /* Hero Section */
+    .hero {
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    .hero p {
+      font-size: 1.2em;
+    }
+
+    .game-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .game-card img {
+      width: 150px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .game-card p {
+      margin-top: 8px;
+      font-weight: bold;
+    }
+
+    .game-card:hover img {
+      transform: scale(1.05);
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 60px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Top-Up Service</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="order-history.html">Order History</a> <!-- Link to the Order History page -->
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h2>Get Your Top-Up Now!</h2>
+    <p>We offer fast and secure top-up services for mobile, gaming, and more.</p>
+
+    <!-- Game Cards -->
+    <div class="game-row">
+      <!-- Free Fire -->
+      <a href="freefire.html" class="game-card">
+        <img src="https://tse4.mm.bing.net/th?id=OIP.Jcud0tUk-IX3U9GPYKRe2wHaEW&cb=iwc&w=278&h=278&c=7" alt="Free Fire">
+        <p>Free Fire</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Top-Up Service. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
