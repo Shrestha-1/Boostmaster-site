@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Fire Diamond Top-Up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+    }
+
+    header {
+      background-color: #222;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 30px 15px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .diamond-box {
+      display: inline-block;
+      width: 200px;
+      margin: 15px;
+      padding: 20px;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .diamond-box:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+    }
+
+    .diamond-box p {
+      margin: 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .cart-summary {
+      margin-top: 40px;
+      padding: 20px;
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cart-summary pre {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 5px;
+      white-space: pre-wrap;
+    }
+
+    .pay-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .pay-btn:hover {
+      background-color: #218838;
+    }
+
+    #playerInfoForm {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button[type="submit"] {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 15px;
+      background-color: #222;
+      color: white;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Free Fire Diamond Top-Up</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="contact.html">Contact Us</a>
+     <a href="order-history.html">Order History</a>
+    </nav>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <h2>Select Your Diamond Package</h2>
+
+    <!-- Diamond Options -->
+    <div class="diamond-box" onclick="addToCart(50, 49)">
+      <p>50 Diamonds - Rs 49</p>
+    </div>
+    <div class="diamond-box" onclick="addToCart(115, 99)">
+      <p>115 Diamonds - Rs 99</p>
+    </div>
+    <div class="diamond-box" onclick="addToCart(240, 199)">
+      <p>240 Diamonds - Rs 199</p>
+    </div>
+    <div class="diamond-box" onclick="addToCart(355, 299)">
+      <p>355 Diamonds - Rs 299</p>
+    </div>
+    <div class="diamond-box" onclick="addToCart(480, 399)">
+      <p>480 Diamonds - Rs 399</p>
+    </div>
+    <div class="diamond-box" onclick="addToCart(610, 599)">
+      <p>610 Diamonds - Rs 599</p>
+    </div>
+    <div class="diamond-box" onclick="addToCart(725, 699)">
+      <p>725 Diamonds - Rs 699</p>
+    </div>
+    <div class="diamond-box" onclick="addToCart(850, 799)">
+      <p>850 Diamonds - Rs 799</p>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary" id="cartSummary">
+      <p>Your Cart: 0 items</p>
+      <p>Total: ₹0</p>
+      <button class="pay-btn" onclick="showPlayerInfoForm()">Proceed to Payment</button>
+    </div>
+
+    <!-- Player Info Form -->
+    <div id="playerInfoForm" style="display:none;">
+      <h3>Enter Your Player Info</h3>
+      <form id="playerInfo">
+        <input type="text" id="playerName" placeholder="Player Name" required><br>
+        <input type="text" id="playerID" placeholder="Player ID" required><br>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Free Fire Top-Up Service. All rights reserved.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    let cart = {
+      items: [],
+      total: 0
+    };
+
+    function addToCart(diamonds, price) {
+      cart.items.push({ diamonds, price });
+      cart.total += price;
+      updateCartSummary();
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function updateCartSummary() {
+      const cartSummary = document.getElementById('cartSummary');
+      const cartCount = cart.items.length;
+      let cartDetails = '';
+      cart.items.forEach(item => {
+        cartDetails += `${item.diamonds} Diamonds - ₹${item.price}\n`;
+      });
+
+      cartSummary.innerHTML = `
+        <p>Your Cart: ${cartCount} item${cartCount > 1 ? 's' : ''}</p>
+        <p>Total: ₹${cart.total}</p>
+        <pre>${cartDetails}</pre>
+        <button class="pay-btn" onclick="showPlayerInfoForm()">Proceed to Payment</button>
+      `;
+    }
+
+    function showPlayerInfoForm() {
+      if (cart.items.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      document.getElementById("playerInfoForm").style.display = "block";
+    }
+
+    document.getElementById("playerInfo").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const playerName = document.getElementById("playerName").value;
+      const playerID = document.getElementById("playerID").value;
+
+      localStorage.setItem('playerInfo', JSON.stringify({ playerName, playerID }));
+      window.location.href = 'payment.html';
+    });
+  </script>
+
+</body>
+</html>
