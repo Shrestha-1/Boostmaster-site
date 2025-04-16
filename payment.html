@@ -12,17 +12,11 @@
       background-color: #f5f5f5;
       text-align: center;
     }
-
     header {
       background-color: #333;
       color: white;
       padding: 15px 0;
     }
-
-    h1, h2 {
-      margin-bottom: 20px;
-    }
-
     .payment-container {
       max-width: 600px;
       margin: 40px auto;
@@ -31,24 +25,16 @@
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-
-    .cart-details p {
-      font-size: 16px;
-      margin: 5px 0;
-    }
-
     .form-group {
       margin-top: 25px;
       text-align: left;
     }
-
     .form-group label {
       display: block;
       margin-bottom: 8px;
       font-weight: bold;
     }
-
-    input[type="text"], input[type="file"] {
+    input[type="text"] {
       width: 100%;
       padding: 10px;
       margin-top: 6px;
@@ -56,7 +42,6 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
-
     .submit-btn {
       padding: 12px 25px;
       background-color: #28a745;
@@ -66,11 +51,9 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     .submit-btn:hover {
       background-color: #218838;
     }
-
     footer {
       margin-top: 50px;
       background-color: #333;
@@ -87,102 +70,115 @@
   <div class="payment-container">
     <h2>Your Cart</h2>
     <div class="cart-details" id="cartDetails">
-      <!-- Cart items inserted here by JS -->
+      <!-- Cart details inserted here -->
     </div>
 
     <div class="form-group">
       <label for="esewaNumber">Send Payment to This eSewa Number:</label>
-      <input type="text" value="98XXXXXXXX" readonly />
+      <input type="text" value="9845877502" readonly />
     </div>
 
     <div class="form-group">
-      <label for="screenshot">Upload Screenshot of Payment:</label>
-      <input type="file" id="screenshot" accept="image/*" />
+      <label for="paymentConfirm">Enter your eSewa number or write 'Done':</label>
+      <input type="text" id="paymentConfirm" placeholder="number or 'Done'" />
     </div>
 
     <button class="submit-btn" onclick="submitPayment()">Submit Payment</button>
   </div>
 
   <footer>
-    <p>&copy; 2025 Free Fire Top-Up Service. All rights reserved.</p>
+    <p>&copy; 2025 BoostMaster. All rights reserved.</p>
   </footer>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA2OoBDj0YMTNIq1gi-hNTL5rDgLEatIQM",
-    authDomain: "boostmaster-2fd86.firebaseapp.com",
-    projectId: "boostmaster-2fd86",
-    storageBucket: "boostmaster-2fd86.firebasestorage.app",
-    messagingSenderId: "577837334995",
-    appId: "1:577837334995:web:e03dfcf4a5acac4c762f26",
-    measurementId: "G-GDDVC63SYB"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyA2OoBDj0YMTNIq1gi-hNTL5rDgLEatIQM",
+      authDomain: "boostmaster-2fd86.firebaseapp.com",
+      projectId: "boostmaster-2fd86",
+      storageBucket: "boostmaster-2fd86.appspot.com",
+      messagingSenderId: "577837334995",
+      appId: "1:577837334995:web:e03dfcf4a5acac4c762f26",
+      measurementId: "G-GDDVC63SYB"
+    };
 
-<script>
-  async function submitPayment() {
-    const fileInput = document.getElementById("screenshot");
-    const file = fileInput.files[0];
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    if (!file) {
-      alert("Please upload a payment screenshot.");
-      return;
-    }
+    window.submitPayment = async function () {
+      const confirmField = document.getElementById("paymentConfirm");
+      if (!confirmField.value.trim()) {
+        alert("Please enter the eSewa Transaction ID or type 'Done'");
+        return;
+      }
 
-    const cart = JSON.parse(localStorage.getItem("cart"));
-    const playerInfo = JSON.parse(localStorage.getItem("playerInfo"));
-    if (!cart || !playerInfo) {
-      alert("Something went wrong. Cart or Player Info not found.");
-      return;
-    }
+      const cart = JSON.parse(localStorage.getItem('cart'));
+      const playerInfo = JSON.parse(localStorage.getItem('playerInfo'));
 
-    // Generate Order ID
-    let orderCount = localStorage.getItem("orderCount");
-    orderCount = orderCount ? parseInt(orderCount) : 0;
-    orderCount += 1;
-    localStorage.setItem("orderCount", orderCount);
-    const orderID = `ORD${orderCount}`;
+      if (!cart || !playerInfo) {
+        alert("Cart or Player Info missing.");
+        return;
+      }
 
-    // Upload screenshot to Firebase Storage
-    const storageRef = storage.ref(`payments/${orderID}_${file.name}`);
-    const uploadTask = await storageRef.put(file);
-    const imageUrl = await uploadTask.ref.getDownloadURL();
+      let orderCount = localStorage.getItem("orderCount");
+      orderCount = orderCount ? parseInt(orderCount) : 0;
+      orderCount += 1;
+      localStorage.setItem("orderCount", orderCount);
+      const orderID = `ORD${orderCount}`;
 
-    // Save order details to Firestore
-    await db.collection("orders").doc(orderID).set({
-      orderId: orderID,
-      playerName: playerInfo.playerName,
-      playerID: playerInfo.playerID,
-      diamonds: cart.items.map(item => item.diamonds),
-      total: cart.total,
-      status: "Pending Confirmation",
-      date: new Date().toLocaleString(),
-      screenshot: imageUrl
-    });
+      const orderData = {
+        orderId: orderID,
+        playerName: playerInfo.playerName,
+        playerID: playerInfo.playerID,
+        diamonds: cart.items.map(item => item.diamonds),
+        total: cart.total,
+        esewaConfirmation: confirmField.value.trim(),
+        status: "Pending Confirmation",
+        date: new Date().toLocaleString()
+      };
 
-    // Show confirmation
-    const container = document.querySelector(".payment-container");
-    container.innerHTML = `
-      <h2>✅ Order Received</h2>
-      <p>Thank you! Your order has been submitted.</p>
-      <p><strong>Order ID:</strong> ${orderID}</p>
-      <p><strong>Status:</strong> Pending Confirmation</p>
-      <p>We will verify your payment and top-up your account shortly.</p>
-    `;
+      try {
+        await setDoc(doc(db, "orders", orderID), orderData);
 
-    // Clear local storage
-    localStorage.removeItem("cart");
-    localStorage.removeItem("playerInfo");
-  }
-</script>
+        document.querySelector(".payment-container").innerHTML = `
+          <h2>✅ Order Received</h2>
+          <p>Thank you! Your order has been submitted.</p>
+          <p><strong>Order ID:</strong> ${orderID}</p>
+          <p><strong>Status:</strong> Pending Confirmation</p>
+          <p>We will verify your eSewa payment and top-up your account shortly.</p>
+        `;
 
-  
+        localStorage.removeItem("cart");
+        localStorage.removeItem("playerInfo");
+      } catch (error) {
+        console.error("Error submitting order:", error);
+        alert("Something went wrong. Please try again.");
+      }
+    };
+
+    window.onload = function () {
+      const cart = JSON.parse(localStorage.getItem('cart'));
+      const playerInfo = JSON.parse(localStorage.getItem('playerInfo'));
+      const cartDiv = document.getElementById("cartDetails");
+
+      if (cart && cart.items.length > 0) {
+        let content = "";
+        cart.items.forEach(item => {
+          content += `<p>${item.diamonds} Diamonds - Rs ${item.price}</p>`;
+        });
+        content += `<p><strong>Total:</strong> Rs ${cart.total}</p>`;
+        if (playerInfo) {
+          content += `<p><strong>Player Name:</strong> ${playerInfo.playerName}</p>`;
+          content += `<p><strong>Player ID:</strong> ${playerInfo.playerID}</p>`;
+        }
+        cartDiv.innerHTML = content;
+      } else {
+        cartDiv.innerHTML = "<p>Your cart is empty.</p>";
+      }
+    };
+  </script>
 </body>
 </html>
