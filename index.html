@@ -39,7 +39,7 @@
 
     /* Glowing effect with box on hover */
     nav a:hover {
-      text-shadow: 0 0 20px rgba(255, 165, 0, 0.8); /* Glowing text effect */
+      text-shadow: 0 0 10px rgba(255, 165, 0, 0.8); /* Smaller glowing text effect */
       border: 2px solid rgba(255, 165, 0, 0.8); /* Box around the text */
       background-color: rgba(255, 165, 0, 0.1); /* Light background to match the glow */
     }
@@ -127,6 +127,12 @@
       .nav-links.active {
         display: flex;
       }
+
+      /* Smaller glow effect on mobile */
+      nav a:hover {
+        text-shadow: 0 0 8px rgba(255, 165, 0, 0.8); /* Even smaller glow on mobile */
+        border: 1px solid rgba(255, 165, 0, 0.8); /* Thinner border for mobile */
+      }
     }
   </style>
 </head>
@@ -140,7 +146,7 @@
       <div class="hamburger-menu" onclick="toggleMenu()">&#9776;</div>
       <div id="menu" class="nav-links">
         <a href="index.html">Home</a>
-        <a href="order-history.html">Order History</a>
+        <a href="order-history.html">Order History</a> <!-- Link to the Order History page -->
         <a href="contact.html">Contact Us</a>
       </div>
     </nav>
@@ -174,4 +180,5 @@
   </script>
 
 </body>
+
 </html>
