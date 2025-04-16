@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Top-Up Service</title>
   <style>
+    /* General Styles */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -22,6 +23,8 @@
 
     nav {
       margin-top: 20px;
+      display: flex;
+      justify-content: center;
     }
 
     nav a {
@@ -90,6 +93,40 @@
       margin-top: 60px;
     }
 
+    /* Mobile Friendly Navigation (Hamburger Menu) */
+    .hamburger-menu {
+      display: none;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .menu {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      /* Mobile Styles */
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      nav a {
+        padding: 10px;
+        font-size: 18px;
+      }
+
+      .hamburger-menu {
+        display: block;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+    }
   </style>
 </head>
 
@@ -99,9 +136,12 @@
   <header>
     <h1>Top-Up Service</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="order-history.html">Order History</a> <!-- Link to the Order History page -->
-      <a href="contact.html">Contact Us</a>
+      <div class="hamburger-menu" onclick="toggleMenu()">&#9776;</div>
+      <div id="menu" class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="order-history.html">Order History</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
     </nav>
   </header>
 
@@ -124,6 +164,13 @@
   <footer>
     <p>&copy; 2025 Top-Up Service. All rights reserved.</p>
   </footer>
+
+  <script>
+    function toggleMenu() {
+      var menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    }
+  </script>
 
 </body>
 </html>
