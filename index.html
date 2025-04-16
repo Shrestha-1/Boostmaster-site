@@ -100,7 +100,7 @@
       cursor: pointer;
     }
 
-    .menu {
+    .nav-links {
       display: flex;
       gap: 20px;
     }
@@ -108,15 +108,16 @@
     /* Responsive Design */
     @media (max-width: 768px) {
       /* Mobile Styles */
+      nav a {
+        padding: 10px;
+        font-size: 18px;
+      }
+
       .nav-links {
         display: none;
         flex-direction: column;
         gap: 10px;
-      }
-
-      nav a {
-        padding: 10px;
-        font-size: 18px;
+        align-items: center;
       }
 
       .hamburger-menu {
