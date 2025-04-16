@@ -107,62 +107,78 @@
     <p>&copy; 2025 Free Fire Top-Up Service. All rights reserved.</p>
   </footer>
 
-  <script>
-    window.onload = function () {
-      const cart = JSON.parse(localStorage.getItem('cart'));
-      const playerInfo = JSON.parse(localStorage.getItem('playerInfo'));
-      const cartDiv = document.getElementById("cartDetails");
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-storage.js";
 
-      if (cart && cart.items.length > 0) {
-        let content = "";
+  const firebaseConfig = {
+    apiKey: "AIzaSyCXunqqIgBLejSgtfcs7IlSPOZ_gAMkAC0",
+    authDomain: "boostmaster-site.firebaseapp.com",
+    projectId: "boostmaster-site",
+    storageBucket: "boostmaster-site.appspot.com",
+    messagingSenderId: "611130900127",
+    appId: "1:611130900127:web:c713c6d2fa8cc2addd6caa",
+    measurementId: "G-98CQ9DCZWY"
+  };
 
-        cart.items.forEach(item => {
-          content += `<p>${item.diamonds} Diamonds - Rs${item.price}</p>`;
-        });
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
 
-        content += `<p><strong>Total:</strong> Rs${cart.total}</p>`;
+  window.submitPayment = async function () {
+    const fileInput = document.getElementById("screenshot");
+    const file = fileInput.files[0];
 
-        if (playerInfo) {
-          content += `<p><strong>Player Name:</strong> ${playerInfo.playerName}</p>`;
-          content += `<p><strong>Player ID:</strong> ${playerInfo.playerID}</p>`;
-        }
-
-        cartDiv.innerHTML = content;
-      } else {
-        cartDiv.innerHTML = "<p>Your cart is empty.</p>";
-      }
-    };
-
-    function submitPayment() {
-      const fileInput = document.getElementById("screenshot");
-
-      if (!fileInput.value) {
-        alert("Please upload a payment screenshot.");
-        return;
-      }
-
-      // Generate Order ID
-      let orderCount = localStorage.getItem("orderCount");
-      orderCount = orderCount ? parseInt(orderCount) : 0;
-      orderCount += 1;
-      localStorage.setItem("orderCount", orderCount); // Store order count in localStorage
-
-      const orderID = `ORD${orderCount}`; // Generate unique order ID (e.g., ORD1, ORD2, etc.)
-
-      // Hide the form and show confirmation
-      const container = document.querySelector(".payment-container");
-      container.innerHTML = `
-        <h2>✅ Order Received</h2>
-        <p>Thank you! Your order has been submitted.</p>
-        <p><strong>Order ID:</strong> ${orderID}</p>
-        <p><strong>Status:</strong> Pending Confirmation</p>
-        <p>We will verify your payment and top-up your account shortly.</p>
-      `;
-
-      // Clear cart and player info from localStorage
-      localStorage.removeItem('cart');
-      localStorage.removeItem('playerInfo');
+    if (!file) {
+      alert("Please upload a payment screenshot.");
+      return;
     }
-  </script>
+
+    let orderCount = localStorage.getItem("orderCount");
+    orderCount = orderCount ? parseInt(orderCount) : 0;
+    orderCount += 1;
+    localStorage.setItem("orderCount", orderCount);
+
+    const orderID = `ORD${orderCount}`;
+    const imageRef = ref(storage, `screenshots/${orderID}_${file.name}`);
+    
+    // Upload the file to Firebase Storage
+    await uploadBytes(imageRef, file);
+    const downloadURL = await getDownloadURL(imageRef);
+
+    // Get cart & player info
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    const playerInfo = JSON.parse(localStorage.getItem('playerInfo'));
+
+    // Save order to Firestore
+    await addDoc(collection(db, "orders"), {
+      orderId: orderID,
+      diamonds: cart.items.map(item => item.diamonds),
+      total: cart.total,
+      playerName: playerInfo.playerName,
+      playerID: playerInfo.playerID,
+      status: "Pending",
+      screenshotURL: downloadURL,
+      date: serverTimestamp()
+    });
+
+    // Show confirmation
+    const container = document.querySelector(".payment-container");
+    container.innerHTML = `
+      <h2>✅ Order Received</h2>
+      <p>Thank you! Your order has been submitted.</p>
+      <p><strong>Order ID:</strong> ${orderID}</p>
+      <p><strong>Status:</strong> Pending Confirmation</p>
+      <p>We will verify your payment and top-up your account shortly.</p>
+    `;
+
+    // Clear cart
+    localStorage.removeItem('cart');
+    localStorage.removeItem('playerInfo');
+  };
+</script>
+
+  
 </body>
 </html>
